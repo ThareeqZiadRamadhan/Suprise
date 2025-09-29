@@ -1,0 +1,116 @@
+body {
+    /* Atur font, pastikan Anda telah menautkan font yang sesuai (misalnya dari Google Fonts) */
+    font-family: sans-serif; 
+    
+    /* Pusatkan kartu di tengah halaman */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    
+    /* Latar belakang putih */
+    background-color: white; 
+}
+
+.card-container {
+    text-align: center;
+    padding: 20px;
+    
+    /* Agar terlihat rapi di tengah */
+    max-width: 400px; 
+    width: 90%;
+}
+
+.illustration img {
+    /* Ganti "your-illustration-url.png" dengan gambar Anda */
+    width: 150px; /* Sesuaikan ukuran gambar */
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.main-text {
+    /* Mirip dengan font di gambar (bold, biru gelap) */
+    font-size: 2.5em; 
+    font-weight: 800; /* Extra bold */
+    color: #5c0707ff; /* Biru gelap */
+    line-height: 1.2;
+    margin-bottom: 15px;
+}
+
+.instruction-text {
+    /* Teks instruksi yang lebih kecil dan berwarna lebih kalem */
+    font-size: 0.9em;
+    color: #4682B4; /* Biru yang lebih muda */
+    margin-bottom: 25px;
+}
+
+.tap-button {
+    /* Warna latar belakang: Gunakan GRADIENT 2x lipat lebih lebar dari tombol */
+    background-image: linear-gradient(to right, #520404ff 50%, #9e1618ff 50%); 
+    background-size: 200% 100%; /* Ukuran background 200% lebar tombol */
+    background-position: right bottom; /* Mulai dari posisi kanan (hanya warna gelap yang terlihat) */
+    
+    color: white;
+    border: none;
+    border-radius: 25px; 
+    padding: 10px 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    /* Transisi untuk semua properti */
+    transition: all 0.4s ease-in-out; 
+
+    /* Terapkan animasi bounce saat diam */
+    animation: bounce 2s infinite; 
+}
+
+.tap-button:hover {
+    /* 1. Hentikan animasi bounce */
+    animation: none; 
+    
+    /* 2. Geser posisi background ke KIRI */
+    /* Ini menyebabkan bagian warna yang lebih terang (#5c70d4) mengisi tombol */
+    background-position: left bottom; 
+
+    /* 3. Tombol bergerak ke atas */
+    transform: translateY(-5px); 
+    
+    /* 4. Beri bayangan terangkat */
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* ... (CSS yang sudah ada untuk body, card-container, dll.) ... */
+
+.illustration {
+    /* Wadah sederhana untuk gambar */
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.animated-character {
+    /* Atur ukuran GIF agar proporsional di kartu */
+    width: 250px; /* Sesuaikan ukuran ini agar pas dengan desain Anda */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        /* Posisi normal, tidak bergerak */
+        transform: translateY(0);
+    }
+    40% {
+        /* Di tengah animasi, turun 15 piksel (efek 'mantul ke bawah') */
+        transform: translateY( -15px ); 
+    }
+    60% {
+        /* Naik sedikit */
+        transform: translateY( -7px );
+    }
+}

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise! Kartu Spesial Untukmu</title>
+    <link rel="stylesheet" href="suprise.css">
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Gaya dasar halaman */
+        body {
+            font-family: 'Poppins', sans-serif;
+             -webkit-text-stroke: 1px #000000; 
+            background-color: #ffffff; 
+            padding: 40px 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            perspective: 1000px;
+            background-image: url('I Love You Heart GIF.gif'); 
+            background-repeat: repeat; /* Atur agar GIF berulang (jika kecil) */ /* Atau 'auto' jika GIF Anda kecil */
+            background-attachment: fixed;
+            background-size: auto 100vh; /* Opsi: Agar GIF tidak bergerak saat di-scroll */ /* Penting untuk efek 3D folder */
+            background-position:center center;
+        }
+
+        h1 {
+            color: #ffffff; 
+            margin-bottom: 50px;
+            font-size: xx-large;
+            text-align: center;
+            font-style:italic;
+            font-weight: bold;
+            text-shadow: 5px 5px 30px rgba(129, 9, 9, 0.836);
+            display: flex; 
+            justify-content: center;
+        }
+       .profile-photo {
+        width: 150px; /* Ukuran yang sudah kita tentukan */
+        height: 150px; 
+        border-radius: 50%; /* Membuat gambar menjadi lingkaran */
+        
+        /* PENTING! Memastikan GIF mengisi lingkaran tanpa distorsi */
+        object-fit: cover; 
+        background:transparent;
+        
+        
+        margin-bottom: 30px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    }
+    .modal-photo {
+    max-width: 40%; /* Memastikan foto tidak melebihi lebar modal */
+    height: auto;
+    border-radius: 8px; /* Sudut membulat agar lebih estetik */
+    margin-bottom: 0px; /* Jarak antara foto dan teks di bawahnya */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lembut */
+}
+        
+        
+        /* Anda HARUS memiliki semua styling .folder, .paper, dan transisi 
+           di dalam file suprise.css Anda agar ini berfungsi! */
+    </style>
+</head>
+<body>
+    <h1 id="splitTitle">Special Mesagge :???</h1>
+    <img src="I Love You GIF by hoppip (1).gif" alt="gift" class="profile-photo">
+
+   
+    <div class="card-grid">
+
+       <div class="card-grid">
+        <div class="folder-container"> 
+            <div class="folder folder-blue"> 
+                <div class="folder__base"></div>
+                <div class="folder__tab"></div> 
+                <div class="folder__front"></div>
+                <div class="folder__back"></div>
+
+                <div class="papers-stack">
+                    <div class="paper paper-1" style="z-index: 3;">
+                        <div class="paper__content">
+                            Aku bersyukur banget kamu ada di hidupku.
+                            <br>"Ada kamu di hidupku, itu udah priceless bangetlah pokoknyaa. MAKASIHHH TUHANNN!!!!!
+                        </div>
+                    </div>
+                    <div class="paper paper-2" style="z-index: 2;">
+                     <div class="paper__content">
+                            IYAA KAMUUU ! 👉🏻
+                        </div>
+                        </div>
+                    <div class="paper paper-3" style="z-index: 1;">
+                    <div class="paper__content">
+                            <img src="foto.jpg" alt="Foto Spesial" class="modal-photo">
+                            
+                            <div class="paper__footer">INI ORANGNYA</div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <audio id="surpriseAudio" loop>
+    <source src="Nobody Gets Me_spotdown.app.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung elemen audio.
+</audio>
+
+    <button id="nextPageBtn" class="next-btn">
+    Pesan Terakhir Menanti! ✨
+    </button>
+    
+    <div id="surpriseModal" class="modal-overlay modal-hidden">
+        <div class="modal-box">
+            <button id="closeModalBtn" class="modal-close-btn">&times;</button>
+            <div id="modalContentArea" class="modal-content-area">
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('surpriseAudio');
+            const titleElement = document.getElementById('splitTitle');
+            const modal = document.getElementById('surpriseModal');
+            const modalContentArea = document.getElementById('modalContentArea');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            
+
+            // --- 1. LOGIKA SPLIT TEXT ---
+            if (titleElement) {
+                const text = titleElement.textContent;
+                titleElement.innerHTML = ''; 
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char === ' ' ? '\u00A0' : char; 
+                    span.classList.add('split-char');
+                    span.style.animationDelay = `${index * 0.05}s`; 
+                    titleElement.appendChild(span);
+                });
+            }
+
+            // --- 2. LOGIKA BUKA/TUTUP FOLDER ---
+            document.querySelectorAll('.folder').forEach(folder => {
+                folder.addEventListener('click', () => {
+                    folder.classList.toggle('open');
+                });
+            });
+
+            // --- 3. LOGIKA POP-UP MODAL & KERTAS ---//
+document.querySelectorAll('.paper').forEach(paper => {
+    
+    // Hapus event listener lama yang mungkin ada (pencegahan konflik)
+    paper.removeEventListener('click', handlePaperClick); 
+
+    // Tambahkan event listener baru dengan fungsi bernama
+    paper.addEventListener('click', handlePaperClick);
+});
+
+
+// Definisikan fungsi klik (di luar DOMContentLoaded jika menggunakan variabel global)
+function handlePaperClick(e) {
+    
+    // Hentikan propagasi agar klik tidak mengaktifkan event lain di bawahnya
+    e.stopPropagation(); 
+    
+    const clickedPaper = e.currentTarget;
+    const folderContainer = clickedPaper.closest('.folder');
+    
+    // HANYA EKSEKUSI JIKA FOLDER SUDAH TERBUKA
+    if (folderContainer && folderContainer.classList.contains('open')) {
+        
+        // Ambil konten dan tampilkan modal
+        const content = clickedPaper.querySelector('.paper__content').innerHTML;
+
+        modalContentArea.innerHTML = content;
+        modal.classList.remove('modal-hidden');
+        modal.focus(); 
+
+        const closeModalBtn = document.getElementById('closeModalBtn'); // Pastikan ini ada
+
+        // Logika Menutup Modal (Tombol X)
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', () => {
+                modal.classList.add('modal-hidden');
+            });
+        }
+    }
+}
+
+           
+      // --- 5. LOGIKA PINDAH HALAMAN ---
+const nextPageBtn = document.getElementById('nextPageBtn');
+
+if (nextPageBtn) {
+    nextPageBtn.addEventListener('click', () => {
+        // Ganti 'halaman-berikutnya.html' dengan nama file halaman tujuan Anda
+        window.location.href = 'final.html';
+    });
+}
+
+ const playAttempt = audio.play();
+        if (playAttempt !== undefined) {
+            playAttempt.catch(() => {
+                const notification = document.createElement('div');
+                notification.innerHTML = '🎵 Klik di mana saja untuk melanjutkan musik!';
+                notification.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background-color: #d17887; color: white; padding: 15px 30px; border-radius: 10px;
+                    cursor: pointer; z-index: 10000; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); font-weight: bold;
+                `;
+                document.body.appendChild(notification);
+                
+                document.body.addEventListener('click', function handler() {
+                    audio.play();
+                    notification.remove();
+                    document.body.removeEventListener('click', handler); 
+                }, { once: true });
+            });
+        }
+    });
+
+    </script>
+</body>
+</html>

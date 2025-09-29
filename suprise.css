@@ -1,0 +1,413 @@
+/* Ganti .card-grid yang lama */
+.card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 1000px;
+    width: 100%;
+    /* Atur perspektif untuk efek 3D */
+    perspective: 1000px; 
+}
+
+/* Container untuk setiap folder (menggantikan .card lama) */
+.folder-container {
+    height: 250px; /* Tinggi standar folder */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Efek hover untuk terangkat */
+    transition: transform 0.3s ease-out;
+    position: relative;
+    /* Tambahkan box shadow yang akan bertindak seperti container */
+    box-shadow: none;
+    border-radius: 0;
+    background-color: transparent;
+    margin-top: 30px
+}
+
+.folder-container:hover {
+    transform: translateY(-8px);
+    box-shadow: 0;
+}
+
+
+/* ================================================= */
+/* STYLING FOLDER 3D ITU SENDIRI */
+/* ================================================= */
+.folder {
+    width: 300px;
+    height: 200px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-in-out; /* Transisi untuk membuka/menutup */
+    cursor: pointer;
+    border-radius:15px;
+    box-shadow:     0 0 60px rgba(160, 30, 37, 0.9), /* Bayangan utama, sangat menyebar (100px) */
+        0 0 30px rgba(160, 30, 37, 0.7)
+}
+
+/* Kelas Warna Folder */
+.folder-blue {
+    --folder-color: #5e0207ff;
+    --folder-back-color: #5e0207ff; /* Sedikit lebih gelap */
+    --paper-color-1: #E0E0E0;
+    --paper-color-2: #F0F0F0;
+    --paper-color-3: #FFFFFF;
+}
+/* Anda bisa membuat kelas .folder-red, .folder-green dll. untuk warna lain */
+
+
+/* Bagian Dasar Folder (Base) */
+.folder__base {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--folder-color);
+    border-radius: 15px;
+    bottom: 0;
+    left: 0;
+    transform: translateZ(-20px); /* Posisikan sedikit ke belakang */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+/* Bagian Tab Folder */
+.folder__tab {
+    position: absolute;
+    width: 60px;
+    height: 20px;
+    background-color: var(--folder-color);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    top: -15px;
+    left: 10px;
+    transform: translateZ(-20px);
+}
+
+/* Bagian Depan Folder (yang bergerak) */
+.folder__front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--folder-color);
+    border-radius: 15px;
+    transform-origin: bottom center;
+    bottom: 0;
+    left: 0;
+    transform: rotateX(0deg) translateZ(0); /* Posisi awal tertutup */
+    transition: transform 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+/* Bagian Belakang Folder (bagian dalam) */
+.folder__back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--folder-back-color); /* Warna lebih gelap untuk bagian dalam */
+    border-radius: 15px;
+    transform: translateZ(-10px); /* Posisikan di belakang depan */
+    overflow: hidden; /* Sembunyikan kertas saat tertutup */
+}
+
+
+/* ================================================= */
+/* FOLDER SAAT TERBUKA (.folder.open) */
+/* ================================================= */
+.folder.open .folder__front {
+    transform: rotateX(-90deg) translateZ(50px) translateY(-50px); /* Membuka ke atas */
+}
+
+/* ================================================= */
+/* STYLING KERTAS-KERTAS DI DALAM FOLDER */
+/* ================================================= */
+.papers-stack {
+    position: absolute;
+    width: 80%; /* Lebar kertas */
+    height: 80%; /* Tinggi kertas */
+    bottom: 15px;
+    left: 10%;
+    transform-style: preserve-3d;
+    transform: translateZ(-5px); /* Posisikan di antara depan dan belakang folder */
+    pointer-events: none; /* Agar tidak menghalangi klik pada folder */
+}
+
+.paper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; /* Warna kertas */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.5s ease-in-out; /* Transisi untuk kertas */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    pointer-events: auto;
+    text-align: left;
+    transform-origin: center center;
+    z-index: 10 !important
+    cursor:pointer;
+    pointer-events: auto;
+
+}
+
+/* Posisi Kertas-Kertas Saat Folder Tertutup (Stacked) */
+.paper-1 { transform: translateY(0px) translateZ(0px); z-index: 3; background-color: var(--paper-color-3); }
+.paper-2 { transform: translateY(5px) translateZ(-2px); z-index: 2; background-color: var(--paper-color-2); }
+.paper-3 { transform: translateY(10px) translateZ(-4px); z-index: 1; background-color: var(--paper-color-1); }
+
+
+/* Posisi Kertas-Kertas Saat Folder Terbuka (Melayang Keluar) */
+.folder.open .papers-stack .paper-1 {
+    transform: translateY(-150px) translateX(-50px) rotate(-15deg) translateZ(50px);
+    opacity: 1;
+}
+.folder.open .papers-stack .paper-2 {
+    transform: translateY(-180px) translateX(0px) rotate(5deg) translateZ(40px);
+    opacity: 1;
+}
+.folder.open .papers-stack .paper-3 {
+    transform: translateY(-150px) translateX(50px) rotate(15deg) translateZ(30px);
+    opacity: 1;
+    
+}
+
+/* Konten di dalam kertas */
+.paper__content {
+    color: #333;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+.paper__footer {
+    font-size: 0.75em;
+    color: #777;
+    margin-top: 10px;
+    font-style: italic;
+    text-align: right;
+}
+.paper:hover {
+    /* 1. Sedikit membesar (scale) */
+    transform: scale(1.05); 
+    
+    /* 2. Bayangan yang lebih kuat */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    
+    /* 3. Atur z-index agar kertas ini terlihat di atas kertas lain saat di-hover */
+    z-index: 100 !important; 
+}
+
+.split-char {
+    display: inline-block; /* Agar bisa di-transform */
+    transform-origin: bottom center; /* Rotasi dari bawah */
+    animation: text-wave 1.5s infinite alternate ease-in-out; 
+    
+    /* Properti yang akan diatur oleh JS (animation-delay) */
+    animation-delay: var(--delay); 
+}
+
+.modal-overlay {
+    /* Menutupi seluruh layar */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Latar belakang semi-transparan gelap */
+    z-index: 10000; /* Pastikan selalu di atas semua elemen lain */
+    
+    /* Transisi untuk muncul/hilang */
+    opacity: 1; 
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out;
+    
+    /* Pusatkan konten */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-hidden {
+    /* Status awal: tersembunyi */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Penting: agar modal yang tersembunyi tidak memblokir klik */
+}
+
+.modal-box {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 450px;
+    width: 90%;
+    position: relative;
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Tombol Tutup */
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: #d17887;
+    line-height: 1;
+}
+
+/* Area Konten */
+.modal-content-area {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #333;
+    text-align: center;
+}
+.modal-content-area .paper__footer {
+    /* Gaya footer agar berbeda dari quote */
+    display: block;
+    margin-top: 20px;
+    font-size: 0.8em;
+    color: #d17887;
+    font-weight: bold;
+}
+
+   
+/* GAYA KHUSUS UNTUK TOMBOL SELANJUTNYA */
+.next-btn {
+    background-image: linear-gradient(to right, #520404ff 50%, #9e1618ff 50%); 
+    background-size: 200% 100%;
+    background-position: right bottom;
+    
+    color: white;
+    border: none;
+    border-radius: 25px; /* Tetap bulat lonjong */
+    padding: 12px 35px; /* Padding untuk ukuran kecil tapi proporsional */
+    font-size: 1em; /* Ukuran font standar */
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+    transition: all 0.4s ease-in-out; 
+    animation: bounce 2s infinite;
+    
+    margin: 30px auto;
+    display: block;
+    
+    /* PENTING: Batasi lebar maksimal */
+    max-width: 200px; /* Sesuaikan dengan ukuran yang Anda mau */
+    width: auto;
+}
+
+.next-btn:hover {
+    animation: none; 
+    background-position: left bottom; 
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Pastikan animasi bounce ada */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+/* DEFINISI ANIMASI WAVE */
+@keyframes text-wave {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        /* Naik sedikit dan miring */
+        transform: translateY(-8px) rotate(2deg); 
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* RESPONSIVE KHUSUS MOBILE */
+/* ******************************* */
+@media (max-width: 600px) {
+    
+    /* 1. LAYOUT */
+    .card-grid {
+        grid-template-columns: 1fr; /* 1 kolom penuh */
+        gap: 40px; /* Jarak antar elemen vertikal */
+    }
+
+    /* 2. UKURAN UTAMA */
+    h1 {
+        font-size: 1.8em; /* Ukuran H1 agar tidak terlalu besar */
+        margin-bottom: 20px;
+    }
+    .profile-photo {
+        width: 100px; /* Kecilkan GIF profil */
+        height: 100px;
+    }
+
+    /* 3. FOLDER: Lebih kecil lagi di ponsel */
+    .folder-container {
+        height: 160px;
+        width:325px;/* Ketinggian container lebih kecil */
+        font-size: 10px;
+    }
+    .folder {
+        /* UKURAN FOLDER UNTUK PONSEL */
+        width: 140px; 
+        height: 105px;
+    }
+
+    /* 4. PENYESUAIAN TRANSFORMASI KERTAS */
+    /* Karena folder lebih kecil, kertas tidak boleh terbang sejauh sebelumnya. */
+    .folder.open .papers-stack .paper-1 { 
+        /* Nilai dikurangi agar kertas tidak menabrak batas layar */
+        transform: translateY(-80px) translateX(-30px) rotate(-15deg) translateZ(50px); 
+    }
+    .folder.open .papers-stack .paper-2 { 
+        transform: translateY(-100px) translateX(0px) rotate(5deg) translateZ(40px);
+    }
+    .folder.open .papers-stack .paper-3 { 
+        transform: translateY(-80px) translateX(30px) rotate(15deg) translateZ(30px); 
+    }
+    
+    /* 5. TOMBOL */
+    .next-btn {
+        font-size: 0.9em;
+        padding: 10px 25px;
+    }
+    .modal-content-area h2 {
+    font-size: 1.5em; 
+}
+
+/* KONTEN UTAMA DI DALAM MODAL (yang menampung "Aku bersyukur...") */
+ .modal-box {
+        /* Kurangi padding modal agar konten punya ruang */
+        padding: 15px; 
+    }
+    
+    .modal-content-area {
+        /* Kurangi font size utama */
+        font-size: 0.9em; 
+        line-height: 1.3;
+        /* Tambahkan padding agar teks tidak menyentuh tepi */
+        padding: 0 5px; 
+    }
+}
+
+/* FOTO DI MODAL */
+.modal-photo {
+    max-width: 40%; /* Pastikan foto menyusut */
+}

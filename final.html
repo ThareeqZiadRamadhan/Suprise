@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan Spesial Untukmu 💫</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        /* CSS yang Anda sediakan (Tidak diubah, hanya ditambahkan komentar) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        .float-icon { position: fixed; font-size: 30px; color: rgba(255, 255, 255, 0.3); animation: float 10s infinite; pointer-events: none; }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        .container {
+            max-width: 800px; background: rgba(255, 255, 255, 0.98); border-radius: 30px;
+            padding: 60px 40px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            text-align: center; animation: slideIn 0.8s ease-out; position: relative;
+            z-index: 10; border: 3px solid #8B0000;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(50px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .main-title {
+            font-family: 'Bebas Neue', cursive; font-size: 3.5em; color: #8B0000;
+            margin-bottom: 20px; animation: fadeInDown 1s ease-out 0.3s both; letter-spacing: 2px;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .emoji-big { font-size: 4em; margin: 20px 0; animation: bounce 2s infinite; }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+        .message {
+            font-size: 1.2em; line-height: 1.8; color: #333; margin: 30px 0;
+            animation: fadeIn 1s ease-out 0.6s both; text-align: left; padding: 0 10px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .highlight { color: #8B0000; font-weight: 800; font-size: 1.15em; }
+        .quote-box {
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%); color: white;
+            padding: 30px; border-radius: 20px; margin: 40px auto; font-weight: 600;
+            font-size: 1.15em; box-shadow: 0 10px 30px rgba(139, 0, 0, 0.4);
+            animation: fadeIn 1s ease-out 0.9s both; max-width: 90%;
+        }
+        .signature {
+            font-family: 'Bebas Neue', cursive; font-size: 2em; color: #8B0000;
+            margin-top: 40px; animation: fadeIn 1s ease-out 1.2s both; letter-spacing: 1px;
+        }
+        .button-container {
+            margin-top: 40px; /* ANIMASI INI HILANG SEBELUMNYA! */
+            animation: fadeIn 1s ease-out 1.5s both;
+        }
+        .btn {
+            background: linear-gradient(to right, #8B0000 0%, #DC143C 100%); color: white;
+            border: none; padding: 18px 45px; font-size: 1.2em; font-weight: bold;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4); text-transform: uppercase;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(139, 0, 0, 0.6); }
+        .btn:active { transform: translateY(0); }
+        
+        .thanks-section { border-top: 2px dashed #DC143C; padding-top: 40px; margin-top: 50px;
+            animation: fadeInUp 1s ease-out 1.8s both; text-align: center; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .thanks-title { font-family: 'Bebas Neue', cursive; font-size: 2.5em; color: #8B0000; margin-bottom: 15px; letter-spacing: 1px; }
+        .thanks-desc { font-size: 1.1em; color: #555; margin-bottom: 25px; }
+        .thanks-textarea {
+            width: 100%; padding: 20px; font-size: 1.1em; font-family: 'Poppins', sans-serif;
+            border: 3px solid #8B0000; border-radius: 15px; resize: vertical; margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .thanks-textarea:focus { outline: none; border-color: #DC143C; box-shadow: 0 0 15px rgba(139, 0, 0, 0.3); }
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #810707 0%, #4a0404 100%); color: white;
+            border: none; padding: 18px 45px; font-size: 1.2em; font-weight: bold;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(228, 34, 34, 0.4); display: inline-flex;
+            align-items: center; gap: 10px;
+        }
+        .whatsapp-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6); }
+        .wa-icon { font-size: 1.3em; }
+        @media (max-width: 768px) {
+            .container { padding: 40px 25px; } .main-title { font-size: 2.5em; }
+            .message { font-size: 1em; } .quote-box { font-size: 1em; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="icons-container"></div>
+
+    <div class="container">
+        <h1 class="main-title">Pesan Spesial Untukmu</h1>
+        
+        <div class="emoji-big">💫</div>
+
+        <div class="message">
+            <p>Hai kamu! 👋✨</p>
+            <br>
+            <p>Aku cuma pengen bilang kalau <span class="highlight">kamu itu spesial banget</span> buat aku. Seriously! Kehadiran kamu di hidupku tuh bikin semuanya jadi lebih seru dan bermakna. 🌟</p>
+            <br>
+            <p>Kamu orangnya keren, kuat, dan punya energy yang positif banget. Setiap kali ngobrol sama kamu, hari aku jadi lebih cerah. <span class="highlight">Thank you for being you!</span> 💪✨</p>
+        </div>
+
+        <div class="quote-box">
+            "Ada orang-orang yang kehadirannya bikin hidup lebih berwarna. Kamu salah satunya. Makasih udah jadi bagian dari cerita hidupku!" 🎨
+        </div>
+
+        <div class="message">
+            <p>Aku appreciate banget semua hal yang kamu lakuin. Kamu itu <span class="highlight">inspirasi buat aku</span> untuk jadi versi terbaik dari diriku sendiri! 🚀</p>
+            <br>
+            <p>Apapun yang lagi kamu hadapin sekarang, ingat: <span class="highlight">Kamu gak sendiri!</span> Aku bakal selalu support kamu dari sini. Let's keep growing together! 🌱</p>
+            <br>
+            <p>Tetep jadi diri sendiri yang amazing, dan terus kejar impian kamu! <span class="highlight">You're capable of amazing things!</span> 🔥✨</p>
+        </div>
+
+        <div class="signature">
+            Always Rooting For You!<br>
+            Your Biggest Supporter 💯
+        </div>
+         <div style="margin-top: 40px; margin-bottom: 20px; animation: fadeIn 1s ease-out 1.5s both;">
+            <img 
+                src="ziad.jpg" 
+                alt="Foto Kenangan Manis" 
+                style="
+                    max-width: 20%; 
+                    height: auto;
+                    border-radius: 15px; 
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
+                    display: block; 
+                    margin-left: auto;
+                    margin-right: auto;
+                    transition: transform 0.3s ease;
+                "
+                onmouseover="this.style.transform='scale(1.03)';"
+                onmouseout="this.style.transform='scale(1)';">
+        </div>
+        
+        <div class="button-container">
+            <button class="btn" onclick="showResponse()">Thank You! 🥰</button>
+        </div>
+        
+        <div class="thanks-section">
+            <h2 class="thanks-title">Mau Balas Pesan? 💬</h2>
+            <p class="thanks-desc">Tulis pesan kamu di sini 😊</p>
+            
+            <textarea id="thanksMessage" class="thanks-textarea" placeholder="Tulis pesan kamu di sini... ✍️" rows="4"></textarea>
+            
+            <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+                <span>Send Messege</span> 
+            </button>
+        </div>
+        
+    </div> 
+    <audio id="surpriseAudio" loop>
+    <source src="Membasuh_spotdown.app.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung elemen audio.
+</audio>
+
+    <script>
+
+          document.addEventListener('DOMContentLoaded', () => {
+        
+        // Ambil elemen audio
+        const audio = document.getElementById('surpriseAudio');
+        
+        // --- 1. LOGIKA AUDIO (AUTOPLAY DENGAN FALLBACK) ---
+        // Peringatan: Audio harus didefinisikan sebelum dipanggil
+        if (audio) {
+            const playAttempt = audio.play();
+            if (playAttempt !== undefined) {
+                playAttempt.catch(() => {
+                    // Logic fallback jika autoplay gagal (biasanya saat reload)
+                    const notification = document.createElement('div');
+                    notification.innerHTML = '🎵 Klik di mana saja untuk melanjutkan musik!';
+                    notification.style.cssText = `
+                        position: fixed; top: 10%; left: 50%; transform: translate(-50%, -50%);
+                        background-color: #d17887; color: white; padding: 15px 30px; border-radius: 10px;
+                        cursor: pointer; z-index: 10000; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); font-weight: bold;
+                    `;
+                    document.body.appendChild(notification);
+                    
+                    document.body.addEventListener('click', function handler() {
+                        audio.play();
+                        notification.remove();
+                        document.body.removeEventListener('click', handler); 
+                    }, { once: true });
+                });
+            }
+        }
+        // Create floating icons
+        const icons = ['✨', '💫', '⭐', '🌟', '💪', '🔥', '🚀', '🌈', '💯', '🎯'];
+        
+        function createIcon() {
+            const icon = document.createElement('div');
+            icon.classList.add('float-icon');
+            icon.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            icon.style.left = Math.random() * 100 + 'vw';
+            icon.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            icon.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('icons-container').appendChild(icon);
+
+            setTimeout(() => {
+                icon.remove();
+            }, 15000);
+        }
+
+        // Create multiple icons
+        setInterval(createIcon, 800);
+
+        // Create initial icons
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createIcon, i * 300);
+        }
+
+        // Button action
+        function showResponse() {
+            alert('Sama-sama! Seneng banget bisa bikin kamu happy! 😊💫');
+        }
+
+        // WhatsApp function
+        function sendToWhatsApp() {
+            const message = document.getElementById('thanksMessage').value;
+            
+            if (message.trim() === '') {
+                alert('Eh, pesan kamu masih kosong nih! Tulis dulu yaa 😊');
+                return;
+            }
+            
+            // GANTI NOMOR INI dengan nomor WhatsApp kamu (format: 62xxx tanpa +)
+            const phoneNumber = '6281333424345'; // Contoh: 6281234567890
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappURL, '_blank');
+        }
+   });
+      
+    </script>
+</body>
+</html>
