@@ -178,24 +178,48 @@
     Browser Anda tidak mendukung elemen audio.
 </audio>
 
-    <script>
+  <script>
+    // --- FUNGSIONALITAS GLOBAL (DAPAT DIAKSES OLEH onclick="") ---
 
-          document.addEventListener('DOMContentLoaded', () => {
+    // 1. Fungsi Tombol "Thank You! 🥰"
+    window.showResponse = function() {
+        alert('Sama-sama! Seneng banget bisa bikin kamu happy! 😊💫');
+    }
+
+    // 2. Fungsi Tombol WhatsApp
+    window.sendToWhatsApp = function() {
+        const message = document.getElementById('thanksMessage').value;
         
-        // Ambil elemen audio
+        if (message.trim() === '') {
+            alert('Eh, pesan kamu masih kosong nih! Tulis dulu yaa 😊');
+            return;
+        }
+        
+        // GANTI NOMOR INI dengan nomor WhatsApp kamu (format: 62xxx tanpa +)
+        const phoneNumber = '6281333424345'; 
+        
+        const encodedMessage = encodeURIComponent(`Balasan Pesan Spesial:\n\n${message}`);
+        const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+        
+        window.open(whatsappURL, '_blank');
+    }
+
+    // --- LOGIKA UTAMA (Harus Dijalankan Setelah DOM Siap) ---
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // Ambil elemen audio (untuk audio logic)
         const audio = document.getElementById('surpriseAudio');
         
-        // --- 1. LOGIKA AUDIO (AUTOPLAY DENGAN FALLBACK) ---
-        // Peringatan: Audio harus didefinisikan sebelum dipanggil
+        // --- LOGIKA AUDIO (AUTOPLAY DENGAN FALLBACK) ---
         if (audio) {
             const playAttempt = audio.play();
             if (playAttempt !== undefined) {
                 playAttempt.catch(() => {
-                    // Logic fallback jika autoplay gagal (biasanya saat reload)
+                    // Logic fallback jika autoplay gagal (saat reload)
                     const notification = document.createElement('div');
                     notification.innerHTML = '🎵 Klik di mana saja untuk melanjutkan musik!';
                     notification.style.cssText = `
-                        position: fixed; top: 10%; left: 50%; transform: translate(-50%, -50%);
+                        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
                         background-color: #d17887; color: white; padding: 15px 30px; border-radius: 10px;
                         cursor: pointer; z-index: 10000; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); font-weight: bold;
                     `;
@@ -209,8 +233,10 @@
                 });
             }
         }
-        // Create floating icons
+
+        // --- LOGIKA FLOATING ICONS (Harus tetap di dalam DOMContentLoaded untuk mengakses body) ---
         const icons = ['✨', '💫', '⭐', '🌟', '💪', '🔥', '🚀', '🌈', '💯', '🎯'];
+        const iconsContainer = document.getElementById('icons-container');
         
         function createIcon() {
             const icon = document.createElement('div');
@@ -219,45 +245,22 @@
             icon.style.left = Math.random() * 100 + 'vw';
             icon.style.animationDuration = (Math.random() * 5 + 5) + 's';
             icon.style.animationDelay = Math.random() * 5 + 's';
-            document.getElementById('icons-container').appendChild(icon);
+            if (iconsContainer) {
+                 iconsContainer.appendChild(icon);
+            }
 
             setTimeout(() => {
                 icon.remove();
             }, 15000);
         }
 
-        // Create multiple icons
+        // Jalankan logika ikon
         setInterval(createIcon, 800);
-
-        // Create initial icons
         for (let i = 0; i < 10; i++) {
             setTimeout(createIcon, i * 300);
         }
 
-        // Button action
-        function showResponse() {
-            alert('Sama-sama! Seneng banget bisa bikin kamu happy! 😊💫');
-        }
-
-        // WhatsApp function
-        function sendToWhatsApp() {
-            const message = document.getElementById('thanksMessage').value;
-            
-            if (message.trim() === '') {
-                alert('Eh, pesan kamu masih kosong nih! Tulis dulu yaa 😊');
-                return;
-            }
-            
-            // GANTI NOMOR INI dengan nomor WhatsApp kamu (format: 62xxx tanpa +)
-            const phoneNumber = '6281333424345'; // Contoh: 6281234567890
-            
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-            
-            window.open(whatsappURL, '_blank');
-        }
-   });
-      
-    </script>
+    });
+</script>
 </body>
 </html>
